@@ -1,6 +1,7 @@
 library(rvest)
 library(stringr)
 library(plyr)
+library(foreign)
 
 setwd('~/datadive')
 
@@ -78,6 +79,9 @@ scrape_page <- function(html_file){
   results <- cbind(id, title, from, to, region, category, status, target_support, perc_reached, supporters_total, supporters_germany, petition_text)
 }
 
+#load petition dataset
+petitions <- read.csv("data/2_liste_in_zeichnung_withid.csv", header = T, stringsAsFactors = F)
+
 #load htmls of individual pages
 htmls <-list.files(path="data/html_files", full.names = TRUE, recursive=FALSE)
 
@@ -90,4 +94,4 @@ petitions <- merge(petitions, data_individualpages, by = c("id"))
 rm(data_individualpages)
 
 #write
-write.csv(petitions, "data/liste_in_zeichnung.csv")
+write.csv(petitions, "data/3_liste_in_zeichnung_scraped.csv", row.names = F)

@@ -77,27 +77,27 @@ for(p in 1:num_pages) {
 
   # Datei einlesen -------------------------------------------------------------
 
-  file <- paste0('data/listen/liste_in_zeichnung_', p, '.html')
+  file <- paste0('data/listen/liste_in_zeichnung_', as.character(p), '.html')
 
   parsed_doc <- htmlParse(file)
 
   # Datei auslesen -------------------------------------------------------------
 
   # Liest die Titel der Petionen aus der Liste aus
-  names <- xpathSApply(parsed_doc, "//ul[@class = 'petitionen-liste']//h2/a",
+  name <- xpathSApply(parsed_doc, "//ul[@class = 'petitionen-liste']//h2/a",
                        fun = xmlValue)
 
-  # names säubern
-  names <- gsub('\n|\t|\t ', '', names)
+  # name säubern
+  name <- gsub('\n|\t|\t ', '', name)
 
   # Liest die Links zu den Petitionen aus der Liste aus
-  urls <- xpathSApply(parsed_doc, "//ul[@class = 'petitionen-liste']//h2/a",
+  url <- xpathSApply(parsed_doc, "//ul[@class = 'petitionen-liste']//h2/a",
                       xmlGetAttr, 'href')
 
   # URLs enthalten nur relativen Pfad, Domain ergänzen für absoluten Pfad
-  urls <- paste0('https://www.openpetition.de', urls)
+  url <- paste0('https://www.openpetition.de', url)
 
-  tmp <- data.frame(names, urls)
+  tmp <- data.frame(name, url)
 
   # Neue Seiten an Liste der Petitionen anhängen
 
@@ -105,7 +105,7 @@ for(p in 1:num_pages) {
 
 }
 
-write.csv(petitionen, 'data/liste_in_zeichnung.csv')
+write.csv(petitionen, 'data/1_liste_in_zeichnung.csv', row.names = F)
 
 
 
