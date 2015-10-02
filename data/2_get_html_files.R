@@ -20,3 +20,5 @@ for(i in 1:length(petitions$url)){
 }
 
 write.csv(petitions, "data/2_liste_in_zeichnung_withid.csv", row.names = F)
+
+rm(list = ls())
