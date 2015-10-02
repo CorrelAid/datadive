@@ -5,6 +5,14 @@ library(foreign)
 
 setwd('~/datadive')
 
+#load petition dataset
+petitions <- read.csv("data/2_liste_in_zeichnung_withid.csv", header = T, stringsAsFactors = F)
+
+#load htmls of individual pages
+htmls <-list.files(path="data/html_files", full.names = TRUE, recursive=FALSE)
+#we may get more htmls than observations in petitions - this is due to earlier executions of the script
+#where there were more observations in petitions
+
 #function to scrape information from individual pages 
 scrape_page <- function(html_file){
   #load and parse html
@@ -45,8 +53,8 @@ scrape_page <- function(html_file){
     html_text(trim = T) %>%
     .[1]
   
-  #number of supporters in Germany
-  supporters_germany <- html %>%
+  #number of supporters relevant for Quorum
+  supporters_for_quorum <- html %>%
     html_nodes(xpath = "//li[@class = 'unterstuetzer']/descendant::strong") %>%
     html_text(trim = T) %>%
     .[2]
@@ -76,22 +84,24 @@ scrape_page <- function(html_file){
     html_nodes(xpath = "//div[@class = 'col2']/descendant::div[@class = 'text']") %>%
     html_text(trim =  T)
   
-  results <- cbind(id, title, from, to, region, category, status, target_support, perc_reached, supporters_total, supporters_germany, petition_text)
+  #link to Statistik & Karten page
+  stat_url <- html %>%
+    html_nodes(xpath = "//a[contains(text(), 'Statistik')]") %>%
+    html_attr("href")
+  stat_url <- ifelse(is.na(stat_url), stat_url, paste0("https://www.openpetition.de", stat_url))
+  
+  results <- cbind(id, title, from, to, region, category, status, target_support, perc_reached, supporters_total, supporters_for_quorum, petition_text, stat_url)
 }
-
-#load petition dataset
-petitions <- read.csv("data/2_liste_in_zeichnung_withid.csv", header = T, stringsAsFactors = F)
-
-#load htmls of individual pages
-htmls <-list.files(path="data/html_files", full.names = TRUE, recursive=FALSE)
 
 #apply function to htmls
 data_individualpages <- ldply(htmls, scrape_page)
-rm(htmls)
 
 #merge to petitions
 petitions <- merge(petitions, data_individualpages, by = c("id"))
-rm(data_individualpages)
+
+rm(data_individualpages, htmls)
 
 #write
 write.csv(petitions, "data/3_liste_in_zeichnung_scraped.csv", row.names = F)
+
+rm(list = ls())

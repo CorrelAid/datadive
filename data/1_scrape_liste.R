@@ -20,7 +20,7 @@ setwd('~/CorrelAidRepos/datadive/')
 
 # Loading the R packages neccessary to execute the tasks ahead.
 packages <- c("stringr", "XML", "maptools", "RCurl", "ggplot2", "sp", "spdep",
-              "rgdal", "reshape")
+              "rgdal", "reshape", "stringr", "dplyr")
 for (p in packages) {
   if (p %in% installed.packages()[,1]) require(p, character.only=T)
   else {
@@ -34,7 +34,7 @@ for (p in packages) {
 # ------------------------------------------------------------------------------
 
 URL <- 'https://www.openpetition.de/liste/in_zeichnung' # URL zur ersten Seite
-file <- 'data/listen/liste_in_zeichnung1.html' # Pfad wo HTML-Seite gespeichert
+file <- 'data/listen/liste_in_zeichnung_1.html' # Pfad wo HTML-Seite gespeichert
 # wird
 
 download.file(URL, file)  # Datei wird heruntergeladen
@@ -58,9 +58,11 @@ num_pages <- as.integer(num_pages)
 # Die Schleife läuft bis die max. Seitenzahl (aus dem vorherigen Schritt)
 # erreicht ist
 
-for(p in 2:num_pages) {
-  download.file(paste0(URL, '?zeichnung=', p),
-                paste0('data/listen/liste_in_zeichnung_', p, '.html'))
+for(p in 2:num_pages){
+  url <- paste0(URL, '?seite=', as.character(p))
+  content <- getURL(url)
+  dest_path <- paste0('data/listen/liste_in_zeichnung_', as.character(p), '.html')
+  write(content, dest_path)
 }
 
 # ------------------------------------------------------------------------------
@@ -68,7 +70,7 @@ for(p in 2:num_pages) {
 # ------------------------------------------------------------------------------
 
 # Leerer data.frame der die Liste der Petitionen von allen Seiten enthalten wird
-petitionen <- data.frame()
+petitions <- data.frame()
 
 # Die Loop durchläuft alle HTML-Seiten der Liste und liest die Petitionen aus
 # und fügt diese zu einer Liste zusammen
@@ -93,19 +95,31 @@ for(p in 1:num_pages) {
   # Liest die Links zu den Petitionen aus der Liste aus
   url <- xpathSApply(parsed_doc, "//ul[@class = 'petitionen-liste']//h2/a",
                       xmlGetAttr, 'href')
-
-  # URLs enthalten nur relativen Pfad, Domain ergänzen für absoluten Pfad
-  url <- paste0('https://www.openpetition.de', url)
-
+  
+ 
   tmp <- data.frame(name, url)
 
   # Neue Seiten an Liste der Petitionen anhängen
 
-  petitionen <- rbind(petitionen, tmp)
+  petitions <- rbind(petitions, tmp)
 
 }
 
-write.csv(petitionen, 'data/1_liste_in_zeichnung.csv', row.names = F)
+#manche URLs enthalten schon absoluten Pfad, andere nur relativen Pfad
+petitions$url <- as.character(petitions$url)
 
+petitions1 <- petitions %>%
+  filter(str_detect(url, "http://")) %>%
+  mutate(url = str_replace_all(url, "http", "https"))
+  
+petitions2 <- petitions %>%
+  filter(str_detect(url, "http://") == F) %>%
+  mutate(url =  paste0('https://www.openpetition.de', url))
+
+petitions <- rbind(petitions1, petitions2)
+
+write.csv(petitions, 'data/1_liste_in_zeichnung.csv', row.names = F)
+
+rm(list = ls())
 
 
