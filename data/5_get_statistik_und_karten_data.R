@@ -51,7 +51,8 @@ library(stringr)
   #merge to petitions_stats
   petitions_stats <- merge(petitions_stats, temp, by = c("id"))
   petitions_stats$html <- as.character(petitions_stats$html)
-
+  petitions_stats$id <- as.integer(petitions_stats$id)
+  
   rm(htmls, temp, content)
 
   #function to get links to Json pages 
@@ -67,25 +68,20 @@ library(stringr)
     #extract both from jsonurls_cleaned and create data.frame with id variable
     json_gf <- paste0("https://www.openpetition.de", jsonurls_cleaned[1])
     json_gld <- paste0("https://www.openpetition.de", jsonurls_cleaned[2])
-    id <- id
     cbind(id, json_gf, json_gld)
   }
   
   #apply function
-  temp <- mdply(select(petitions_stats, html, id), get_jsonlinks)
+  petitions_stats <- mdply(select(petitions_stats, html, id), get_jsonlinks)
 
-  #merge temp to petitions_stats
-  petitions_stats <- merge(petitions_stats, temp, by = c("id"))
-
-  rm(temp)
-  
   #convert json_gf & json_gld to character
   petitions_stats$json_gf <- as.character(petitions_stats$json_gf)
   petitions_stats$json_gld <- as.character(petitions_stats$json_gld)
 
 #4. Read in json from URL 
 #we need two different extraction functions because the structure of the Json differs depending on the graph type
-  
+  #first only petitions with JSON links
+
   #4.1. For the Full Graph ("Unterschriften im Petitionszeitraum")
     #function to extract json graph full
     getjson_gf <- function(url, id){
@@ -93,6 +89,28 @@ library(stringr)
       raw <- readLines(url)
       #get Json content
       json_raw <- fromJSON(raw)
+      
+      #we have to have different versions of the code 
+        # if there is only one day recorded (exception)
+        # multiple days recorded
+      if(dim(json_raw)[2]==1){
+        #extract values and convert to dataframe
+        temp1 <- data.frame(json_raw[1,,])
+        #transpose data frame
+        temp1 <- as.data.frame(t(temp1))
+        #rownames and colnames
+        colnames(temp1) <- c("date", "sig_total")
+        rownames(temp1) <- NULL
+        
+        temp2 <- data.frame(json_raw[2,,])
+        #transpose data frame
+        temp2 <- as.data.frame(t(temp2))
+        #rownames and colnames
+        colnames(temp2) <- c("date", "sig_quorum")
+        rownames(temp1) <- NULL
+        
+        json_df <- merge(temp1, temp2)
+      }else{
       #extract values and convert to dataframe
       temp1 <- data.frame(json_raw[1,,])
       colnames(temp1) <- c("date", "sig_total")
@@ -101,10 +119,12 @@ library(stringr)
       colnames(temp2) <- c("date", "sig_quorum")
       
       json_df <- merge(temp1, temp2)
+      }
+      
       return(cbind(json_df, id))
     }
 
-    #apply function - json graph_full
+    #apply function- json graph_full
     json_gf_df <- mdply(select(petitions_stats, url = json_gf, id), getjson_gf)
 
   #4.2. For the Last Days Graph ("Gesammelte Unterschriften pro Tag in den letzten zwei Wochen")
