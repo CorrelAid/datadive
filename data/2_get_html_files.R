@@ -2,8 +2,6 @@ library(foreign)
 library(RCurl)
 library(stringr)
 
-#set working directory
-setwd('~/datadive')
 
 #load petitions
 petitions <- read.csv("data/1_liste_in_zeichnung.csv", header = T, stringsAsFactors = F)
