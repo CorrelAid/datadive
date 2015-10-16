@@ -3,7 +3,6 @@ library(stringr)
 library(plyr)
 library(foreign)
 
-setwd('~/datadive')
 
 #load petition dataset
 petitions <- read.csv("data/2_liste_in_zeichnung_withid.csv", header = T, stringsAsFactors = F)
@@ -47,6 +46,13 @@ scrape_page <- function(html_file){
     html_nodes(xpath = "//strong[contains(text(), 'Kategorie')]/parent::div") %>%
     html_text(trim = T)
   
+  #catch category for empty cases (bc HTML is english)
+  if(length(category)==0){
+    category <- html %>%
+      html_nodes(xpath = "//strong[contains(text(), 'Topic')]/parent::div") %>%
+      html_text(trim = T)
+  }
+  
   #total number of supporters
   supporters_total <- html %>%
     html_nodes(xpath = "//li[@class = 'unterstuetzer']/descendant::strong") %>%
@@ -66,7 +72,7 @@ scrape_page <- function(html_file){
   
   #target support
   target_support <- html %>%
-    html_nodes(xpath = "//div[@class = 'ziel']") %>%
+    html_nodes(css = "div[class='ziel']") %>%
     html_text(trim =  T) 
   
   #status of petition
@@ -89,6 +95,14 @@ scrape_page <- function(html_file){
     html_nodes(xpath = "//a[contains(text(), 'Statistik')]") %>%
     html_attr("href")
   stat_url <- ifelse(is.na(stat_url), stat_url, paste0("https://www.openpetition.de", stat_url))
+  
+  #catch link if not caught by previous code (bc HTML is english)
+  if(length(stat_url)==0){
+    stat_url <- html %>%
+      html_nodes(xpath = "//a[contains(text(), 'Maps')]") %>%
+      html_attr("href")
+    stat_url <- ifelse(is.na(stat_url), stat_url, paste0("https://www.openpetition.de", stat_url))
+  }
   
   results <- cbind(id, title, from, to, region, category, status, target_support, perc_reached, supporters_total, supporters_for_quorum, petition_text, stat_url)
 }
