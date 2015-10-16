@@ -1,0 +1,140 @@
+
+---
+title: "Codebooks für OpenPetition Datensätze"
+subtitle: "und ein Überblick über Ordner-/Dateienstruktur 'data'"
+output:
+    pdf_document:
+        toc: yes
+        pandoc_args: [
+        "--number-sections"
+        ]
+        includes:
+          in_header: header.tex
+---
+\newpage
+
+Dies ist ein Codebook für die OpenPetition Daten. Zudem eine kurze Erläuterung zur Ordnerstruktur/Dateienstruktur.
+
+# Überblick Ordner-/Dateienstruktur
+- Daten und die R Files im Unterordner "data". 
+- Datenerhebung erfolgte grob gesagt in fünf Schritten -> Prefix gibt Aufschluss über Position der Datei in Workflow
+    - Prefix 0 -> Master R File, in dem alle anderen R Files gesourct werden
+    - csv files mit gleichem Prefix wie R File sind "Output" des R Files
+    - anderer Output können html files sein, die gedownloadet wurden (s.u.)
+- **relevant für Analayse**: "4_liste_in_zeichnung_clean.csv"-Datensatz in Verbindung mit den zwei Datensätzen im "statistik_und_karten"-Unterordner. 
+- Alphabetisch geordnete Codebooks für diese drei Datensätze findet ihr in Sektion [2](#sec4), [3](#sec51) und [4](#sec52). 
+
+\newpage
+\blandscape
+
+---------------------------------------------------------------
+Schritt   .R                                    Output Files                       Beschreibung
+--------- -------------------------------- --------------------------------------- --------------
+0         0_data_master                    /                                       Master R File
+                                
+1         1_scrape_liste                   html files in Unterordner listen \      htmls zu Petitionslistenseiten \
+                                           1_liste_in_zeichnung.csv                Metadaten für jede Petition                                                                                              (name, url)
+                  
+                                
+2         2_get_html_files                 html files in Unterordner html_files \  htmls zu jeder Petition
+                                           2_liste_in_zeichnung_withid.csv         fügt id Variable hinzu
+
+
+3         3_scrape_liste                   3_liste_in_zeichnung_scraped.csv        Daten zu jeder Petition
+
+
+4         4_clean_data                     4_liste_in_zeichnung_clean.csv          säubert Daten (teilweise)
+
+
+5         5_get_statistik_und_karten_data  in Unterordner statistik_und_karten:\   für jede Petition:\
+                                           5_ganzer_zeitraum.csv \                 Anzahl Unterschriften ganzer                                                                            \                Zeitraum (Graph 1) \
+                                           5_letzte_2_wochen.csv                   Anzahl Unterschriften letzte \
+                                                                                        zwei Wochen
+                        
+------------------------------------------------------------
+
+\elandscape
+
+# Codebook 4_liste_in_zeichnung.csv {#sec4}
+Hinweis: Wenn ihr nicht wollt, dass die character-Variablen in factors umgewandelt werden, benutzt die Option "stringsAsFactors = FALSE" bei read.csv().
+## id {-}
+- petitionsspezifische id Variable 
+- zum Mergen von Statistik-und-Karten-Datensätzen zu 4_liste_in_zeichnung.csv und umgekehrt
+
+## url {-} 
+- URL zur Seite der Petition
+
+## title {-}
+- Titel der Petition 
+
+## from {-}
+- Petitionssteller
+
+## to {-}
+- an wen sich Petition richtet 
+
+## region {-}
+- Region der Petition
+- mögliche Werte auch: "Deutschland", "Schweiz", "Österreich"
+
+## status {-}
+- Status der Petition
+- für alle "in Zeichnung", da wir nur aktuelle Petitionen gescrapt haben
+
+## target_support {-}
+- für Petitionen mit Quorum: angestrebtes Quorum
+- für Petitionen ohne Quorum (d.h. nur mit Sammlungsziel): angestrebtes Sammlungsziel 
+
+## category {-}
+- Kategorie der Petition
+- NA: keine Kategorie angegeben
+
+## perc_reached {-}
+- erreichte Prozente von target_support
+
+## supporters_total {-}
+- Unterstützer gesamt
+
+## supporters_for_quorum {-}
+- Unterstützer, die für das Quorum zählen
+- NA für Petitionen mit Sammelziel 
+
+## petition_text {-}
+- Petitionstext
+
+## stat_url {-}
+- URL zur Statistik & Karten Seite 
+
+\newpage
+# Codebook 5_ganzer_zeitraum.csv {#sec51}
+Dieser Datensatz enthält für jede Petition und jeden Tag die absolute Anzahl an Unterschriften (total und für-Quorum-zählend) seit Petitionsstart. 
+
+## date {-}
+- Datum 
+
+## sig_total {-}
+- Anzahl alle Unterstützer zu Datum
+
+## sig_quorum  {-}
+- Anzahl aller Unterstützer, die für Quorum zählen, zu Datum
+
+## id {-}
+- petitionsspezifische ID Variable
+
+\newpage
+# Codebook 5_letzte_2_wochen.csv {#sec52}
+Im Unterschied zu 5_ganzer_zeitraum.csv, sind in diesem Datensatz für jede Petition und jeden Tag in den letzten zwei Wochen die **neu hinzugekommenen** Unterschriften (total und für-Quorum-zählend) enthalten.
+
+## date {-}
+- Datum 
+
+## new_sig_total {-}
+- Anzahl neue Unterstützer zu Datum
+
+## new_sig_quorum {-}
+- Anzahl neuer Unterstützer, die für Quorum zählen, zu Datum
+
+## id  {-}
+- petitionsspezifische ID Variable
+
+
