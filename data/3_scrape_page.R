@@ -2,6 +2,7 @@ library(rvest)
 library(stringr)
 library(plyr)
 library(foreign)
+library(dplyr)
 
 
 #load petition dataset
@@ -9,16 +10,26 @@ petitions <- read.csv("data/2_liste_in_zeichnung_withid.csv", header = T, string
 
 #load htmls of individual pages
 htmls <-list.files(path="data/html_files", full.names = TRUE, recursive=FALSE)
+
+#create data frame
+html_df <- data.frame(html = htmls)
+html_df$id <- as.integer(str_extract(html_df$html, "\\d{1,}"))
+html_df$html <- as.character(html_df$html)
 #we may get more htmls than observations in petitions - this is due to earlier executions of the script
 #where there were more observations in petitions
 
+#join to petitions
+petitions <- inner_join(petitions, html_df)
+
+rm(html_df)
+
+
 #function to scrape information from individual pages 
-scrape_page <- function(html_file){
+scrape_page <- function(html_file, url){
   #load and parse html
   html <- read_html(html_file, encoding = "UTF-8")
-  
-  #id
-  id <- str_extract(html_file, "\\d{1,}")
+ 
+  id <- as.integer(str_extract(html, "\\d{1,}"))
   
   #title
   title <- html %>%
@@ -91,29 +102,26 @@ scrape_page <- function(html_file){
     html_text(trim =  T)
   
   #link to Statistik & Karten page
-  stat_url <- html %>%
-    html_nodes(xpath = "//a[contains(text(), 'Statistik')]") %>%
-    html_attr("href")
-  stat_url <- ifelse(is.na(stat_url), stat_url, paste0("https://www.openpetition.de", stat_url))
-  
-  #catch link if not caught by previous code (bc HTML is english)
-  if(length(stat_url)==0){
     stat_url <- html %>%
-      html_nodes(xpath = "//a[contains(text(), 'Maps')]") %>%
+      html_nodes(xpath = "//a[contains(text(), 'Statistik')]") %>%
       html_attr("href")
-    stat_url <- ifelse(is.na(stat_url), stat_url, paste0("https://www.openpetition.de", stat_url))
-  }
   
+    #catch link if not caught by previous code (bc HTML is english)
+    if(length(stat_url)==0){
+      stat_url <- html %>%
+        html_nodes(xpath = "//a[contains(text(), 'Maps')]") %>%
+        html_attr("href")
+    }
+    
+    #until now not a complete link, how to complete depends on the original URL (e.g. .de or .eu)
+    suffix <- str_replace(url, ".+?openpetition(.+?)/petition.+", "\\1")
+    stat_url <- paste0("https://www.openpetition", suffix, stat_url)
+    
   results <- cbind(id, title, from, to, region, category, status, target_support, perc_reached, supporters_total, supporters_for_quorum, petition_text, stat_url)
 }
 
 #apply function to htmls
-data_individualpages <- ldply(htmls, scrape_page)
-
-#merge to petitions
-petitions <- merge(petitions, data_individualpages, by = c("id"))
-
-rm(data_individualpages, htmls)
+petitions <- mdply(select(petitions, html = html, url = url), scrape_page)
 
 #write
 write.csv(petitions, "data/3_liste_in_zeichnung_scraped.csv", row.names = F)
