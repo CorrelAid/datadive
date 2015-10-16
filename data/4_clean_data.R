@@ -19,9 +19,7 @@ for(i in 1:ncol(petitions)){
   }}
 rm(i)
 
-#remove name variable
-petitions <- petitions %>%
-  select(-name)
+
 
 #cleaning of individual variables
   #id 
