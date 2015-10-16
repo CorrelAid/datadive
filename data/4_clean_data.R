@@ -5,9 +5,6 @@ library(dplyr)
 
 #clean data
 
-#set wd
-setwd("~/datadive")
-
 #load dataset
 petitions <- read.csv("data/3_liste_in_zeichnung_scraped.csv", header = T, colClasses = "character")
 
@@ -53,6 +50,7 @@ petitions <- petitions %>%
     mutate(target_support = str_replace_all(target_support, "\\n", "")) %>%
     mutate(target_support = str_replace_all(target_support, "\\t", "")) %>%
     mutate(target_support = str_replace_all(target_support, "(\\d{1,}\\.{1,}\\d{1,}).+", "\\1")) %>%
+    mutate(target_support = str_replace_all(target_support, "(\\d{1,}).+", "\\1")) %>%
     mutate(target_support = str_replace_all(target_support, "\\.", "")) %>%
     mutate(target_support = as.integer(target_support))
   
@@ -79,4 +77,4 @@ petitions <- petitions %>%
 #write csv
 write.csv(petitions, "data/4_liste_in_zeichnung_clean.csv", row.names = F)
 
-rm(petitions)
+rm(list = ls())
