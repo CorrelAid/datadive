@@ -53,6 +53,9 @@ rm(i)
     mutate(target_support = as.integer(target_support))
   
   #perc_reached 
+  petitions$perc_reached <- str_replace_all(petitions$perc_reached, "% erreicht von", "")
+  petitions$perc_reached <- str_replace_all(petitions$perc_reached, "% achieved of", "")
+  petitions$perc_reached <- as.integer(petitions$perc_reached)
   
   #supporters_total
   petitions <- petitions %>%
@@ -72,6 +75,7 @@ rm(i)
   #stat_url -> nothing to do here
   petitions$stat_url <- as.character(petitions$stat_url)
 
+  
 #write csv
 write.csv(petitions, "data/4_liste_in_zeichnung_clean.csv", row.names = F)
 
