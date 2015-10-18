@@ -17,6 +17,11 @@ library(stringr)
 #1. Load dataset, select variables 
   petitions <- read.csv("data/4_liste_in_zeichnung_clean.csv", stringsAsFactors = F)
    
+#Clean stat url
+  petitions$stat_url <- str_replace(petitions$stat_url, "at/", "")
+  petitions$stat_url <- str_replace(petitions$stat_url, "ch/", "")
+  
+  
   #we only need a minimal subset for this script, only keep obs with stat_url
   petitions_stats <- petitions %>%
     select(id, stat_url) %>%
@@ -57,6 +62,7 @@ library(stringr)
 
   #function to get links to Json pages 
   get_jsonlinks <- function(html, id){
+    print(id)
     rawHTML <- paste(readLines(html), collapse=" ")
     jsonurls <- unlist(str_extract_all(rawHTML, "var jsonUrl = '.+?'"))
     jsonurls_cleaned <- str_replace_all(jsonurls, "var jsonUrl = '(.+?)'", "\\1")

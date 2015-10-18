@@ -29,7 +29,7 @@ scrape_page <- function(html_file, url){
   #load and parse html
   html <- read_html(html_file, encoding = "UTF-8")
  
-  id <- as.integer(str_extract(html, "\\d{1,}"))
+  id <- str_extract(html_file, "\\d{1,}")
   
   #title
   title <- html %>%

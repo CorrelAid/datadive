@@ -16,7 +16,7 @@
 	
 	<meta name="description" content="Es wird Zeit, das Tiere als das behandelt werden, was sie sind - nämlich Lebewesen, wie Sie und ich! Sie denken, und fühlen wie wir - auch wenn viele das ab,- bestreiten! Sie begleiten uns treu - ohne wenn und aber - durch Traurig,- Einsam,- und Krankheit! Sie geben uns Lebens,- (Freude)! Sie ernähren uns (Lebensmittel wie Milch, Käse, ect) Und was tun viele von uns? Zusehen, wie sie ausgesetzt, gequält und grausam ermordet werden! Ich fordere, das Tiere nicht mehr als Sache, sondern als Lebewes" />
 	<meta name="keywords" content="epetition petition lokale regionale Unterschriften Liste Bürger Initiative Petition Aufruf Begehren Entscheid Eingabe Umfrage Anliegen Aktion Ersuchen Bitte Beschwerde Protest Kampagne Anfrage Idee Meinung Erfahrung Ratschlag Anregung Appell Resolution Erklärung erstellen bekanntmachen unterzeichnen zeichnen unterschreiben werben Politik Gesetzgebung Meinungen Meinungsbildung Willensbildung direkte Demokratie Basisdemokratie Open Government Partizipation" />		
-		<meta name="robots" content="noindex, nofollow, noarchive">
+		<meta name="robots" content="noarchive">
 		
 	<!-- facebook open graph -->
 	<meta property="og:site_name" content="openPetition" />
@@ -799,7 +799,7 @@ $(document).ready(function(){
 	
 								<tbody>
 	
-								<tr><td>Hessen</td><td class="right">4</td></tr><tr><td>Thüringen</td><td class="right">1</td></tr>	
+								<tr><td>Hessen</td><td class="right">11</td></tr><tr><td>Baden-Württemberg</td><td class="right">2</td></tr><tr><td>Niedersachsen</td><td class="right">1</td></tr><tr><td>Thüringen</td><td class="right">1</td></tr><tr><td>Bayern</td><td class="right">1</td></tr>	
 								</tbody>
 	
 								</table>
@@ -814,7 +814,7 @@ $(document).ready(function(){
 	
 								<tbody>
 	
-								<tr><td>Kyffhäuserkreis</td><td class="right">1</td></tr><tr><td>Lahn-Dill-Kreis</td><td class="right">1</td></tr><tr><td>Gießen</td><td class="right">1</td></tr><tr><td>Groß-Gerau</td><td class="right">1</td></tr><tr><td>Darmstadt</td><td class="right">1</td></tr>	
+								<tr><td>Vogelsbergkreis</td><td class="right">2</td></tr><tr><td>Verden</td><td class="right">1</td></tr><tr><td>Kyffhäuserkreis</td><td class="right">1</td></tr><tr><td>Schwalm-Eder-Kreis</td><td class="right">1</td></tr><tr><td>Marburg-Biedenkopf</td><td class="right">1</td></tr><tr><td>Lahn-Dill-Kreis</td><td class="right">1</td></tr><tr><td>Gießen</td><td class="right">1</td></tr><tr><td>Main-Kinzig-Kreis</td><td class="right">1</td></tr><tr><td>Offenbach</td><td class="right">1</td></tr><tr><td>Groß-Gerau</td><td class="right">1</td></tr><tr><td>Darmstadt</td><td class="right">1</td></tr><tr><td>Neustadt a.d.Aisch-Bad Windsheim</td><td class="right">1</td></tr><tr><td>Bergstraße</td><td class="right">1</td></tr><tr><td>Hohenlohekreis</td><td class="right">1</td></tr><tr><td>Zollernalbkreis</td><td class="right">1</td></tr>	
 								</tbody>
 	
 							</table>
@@ -914,7 +914,7 @@ $(document).ready(function(){
 									
 									var attribution = '(cc) openpetition.de';
 									attribution+=' | Map data &copy; <a target="_blank" style="color:#333 !important" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
-									attribution+=' | Stand: 16.10.2015';
+									attribution+=' | Stand: 18.10.2015';
 									map.attributionControl.setPrefix("");   
 									map.attributionControl.addAttribution(attribution);
 									var osm = new L.TileLayer(osmUrl, {
@@ -943,8 +943,8 @@ $(document).ready(function(){
 									
 									// Marker für Bundesländer direkt anzeigen
 	
-									var jsondata_bundesland = [{"qty":"1","lat":"50.9397428838401","lon":"11","verwaltung_id":"15","display_name":"Thüringen"},{"qty":"4","lat":"50.5335426176716","lon":"9","verwaltung_id":"5","display_name":"Hessen"}];
-									var dotclasses_bundesland = [{"to":3,"from":"1"},{"from":"4"}];
+									var jsondata_bundesland = [{"qty":"1","lat":"50.9397428838401","lon":"11","verwaltung_id":"15","display_name":"Thüringen"},{"qty":"1","lat":"52.6034041588452","lon":"10.0038503923991","verwaltung_id":"6","display_name":"Niedersachsen"},{"qty":"1","lat":"48.9521777632293","lon":"11.5","verwaltung_id":"17","display_name":"Bayern"},{"qty":"2","lat":"48.6494974282167","lon":"9","verwaltung_id":"12","display_name":"Baden-Württemberg"},{"qty":"11","lat":"50.5335426176716","lon":"9","verwaltung_id":"5","display_name":"Hessen"}];
+									var dotclasses_bundesland = [{"to":1},{"to":10,"from":"2"},{"from":"11"}];
 									var legend_bundesland = [];
 									var legend_landkreis = [];
 									var legend_plz = [];
@@ -1056,8 +1056,8 @@ $(document).ready(function(){
 			
 											// Marker für Landkreise
 	
-											var jsondata_landkreis = [{"qty":"1","lat":"50.6416464369907","lon":"8.38362117593842","verwaltung_id":"1430","display_name":"Lahn-Dill-Kreis","level":"4"},{"qty":"1","lat":"51.3155338687337","lon":"11.0408563108494","verwaltung_id":"1784","display_name":"Kyffhäuserkreis","level":"4"},{"qty":"1","lat":"50.5752933130291","lon":"8.79444058188438","verwaltung_id":"1419","display_name":"Gießen","level":"4"},{"qty":"1","lat":"49.8761461051133","lon":"8.65616500003801","verwaltung_id":"14332","display_name":"Darmstadt","level":"2"},{"qty":"1","lat":"49.9012379934475","lon":"8.45338812603275","verwaltung_id":"13308","display_name":"Groß-Gerau","level":"4"}];
-											var dotclasses_landkreis = [{"from":"1"}];
+											var jsondata_landkreis = [{"qty":"1","lat":"50.6416464369907","lon":"8.38362117593842","verwaltung_id":"1430","display_name":"Lahn-Dill-Kreis","level":"4"},{"qty":"1","lat":"51.3155338687337","lon":"11.0408563108494","verwaltung_id":"1784","display_name":"Kyffhäuserkreis","level":"4"},{"qty":"1","lat":"50.5752933130291","lon":"8.79444058188438","verwaltung_id":"1419","display_name":"Gießen","level":"4"},{"qty":"1","lat":"49.8761461051133","lon":"8.65616500003801","verwaltung_id":"14332","display_name":"Darmstadt","level":"2"},{"qty":"1","lat":"49.9012379934475","lon":"8.45338812603275","verwaltung_id":"13308","display_name":"Groß-Gerau","level":"4"},{"qty":"1","lat":"50.8307043321982","lon":"8.76068495752297","verwaltung_id":"1049","display_name":"Marburg-Biedenkopf","level":"4"},{"qty":"1","lat":"50.0401044442288","lon":"8.83238961632117","verwaltung_id":"1456","display_name":"Offenbach","level":"4"},{"qty":"1","lat":"50.2359798221693","lon":"9.22959361558504","verwaltung_id":"1429","display_name":"Main-Kinzig-Kreis","level":"4"},{"qty":"1","lat":"52.9776997768775","lon":"9.14973364919749","verwaltung_id":"1697","display_name":"Verden","level":"4"},{"qty":"1","lat":"49.2718359060601","lon":"9.61792961119204","verwaltung_id":"1475","display_name":"Hohenlohekreis","level":"4"},{"qty":"1","lat":"49.5882956485845","lon":"10.4595142782018","verwaltung_id":"1729","display_name":"Neustadt a.d.Aisch-Bad Windsheim","level":"4"},{"qty":"1","lat":"51.016732984364","lon":"9.37935142515245","verwaltung_id":"1434","display_name":"Schwalm-Eder-Kreis","level":"4"},{"qty":"1","lat":"49.5740608684165","lon":"8.65363534621015","verwaltung_id":"6531","display_name":"Bergstraße","level":"4"},{"qty":"1","lat":"48.2571507047876","lon":"8.92881934712555","verwaltung_id":"1578","display_name":"Zollernalbkreis","level":"4"},{"qty":"2","lat":"50.6164155102871","lon":"9.2823817993214","verwaltung_id":"1431","display_name":"Vogelsbergkreis","level":"4"}];
+											var dotclasses_landkreis = [{"to":1},{"from":"2"}];
 											$.each(jsondata_landkreis,function(n,e){
 													var className = false;
 													$.each(dotclasses_landkreis,function(n2,e2) {
@@ -1089,7 +1089,7 @@ $(document).ready(function(){
 			
 											// Marker für PLZ
 	
-											var jsondata_plz = [{"qty":"1","postcode":"99713","lon":"10.6957402724088","lat":"51.3206235929383"},{"qty":"1","postcode":"35745","lon":"8.28400459681985","lat":"50.679345312756"},{"qty":"1","postcode":"64560","lon":"8.46738710650817","lat":"49.8389491810374"},{"qty":"1","postcode":"64295","lon":"8.60607069170473","lat":"49.8523306735827"},{"qty":"1","postcode":"35321","lon":"9.01489536436278","lat":"50.5383445939728"}];
+											var jsondata_plz = [{"qty":"1","postcode":"99713","lon":"10.6957402724088","lat":"51.3206235929383"},{"qty":"1","postcode":"35288","lon":"8.92687073398702","lat":"50.9339105265921"},{"qty":"1","postcode":"27313","lon":"9.26808952460292","lat":"52.8441688013547"},{"qty":"1","postcode":"64625","lon":"8.62367317247249","lat":"49.6931091860376"},{"qty":"1","postcode":"35745","lon":"8.28400459681985","lat":"50.679345312756"},{"qty":"1","postcode":"64560","lon":"8.46738710650817","lat":"49.8389491810374"},{"qty":"1","postcode":"63571","lon":"9.18983043307223","lat":"50.2043494847436"},{"qty":"1","postcode":"34212","lon":"9.58390980084209","lat":"51.1447526538053"},{"qty":"1","postcode":"64295","lon":"8.60607069170473","lat":"49.8523306735827"},{"qty":"1","postcode":"36318","lon":"9.30491267737549","lat":"50.6845283462878"},{"qty":"1","postcode":"91463","lon":"10.5412064657953","lat":"49.550077856921"},{"qty":"1","postcode":"72461","lon":"9.01864386561271","lat":"48.266565495886"},{"qty":"1","postcode":"35321","lon":"9.01489536436278","lat":"50.5383445939728"},{"qty":"1","postcode":"63303","lon":"8.7170880894357","lat":"50.0105339089947"},{"qty":"1","postcode":"74214","lon":"9.53108565096908","lat":"49.3509852596941"},{"qty":"1","postcode":"63679","lon":"9.1598973697312","lat":"50.4913422275605"}];
 											var dotclasses_plz = [{"from":"1"}];
 											$.each(jsondata_plz,function(n,e){
 												var className = false;

@@ -799,7 +799,7 @@ $(document).ready(function(){
 	
 								<tbody>
 	
-								<tr><td>Baden-Württemberg</td><td class="right">2</td></tr>	
+								<tr><td>Baden-Württemberg</td><td class="right">5</td></tr>	
 								</tbody>
 	
 								</table>
@@ -814,7 +814,7 @@ $(document).ready(function(){
 	
 								<tbody>
 	
-								<tr><td>Karlsruhe</td><td class="right">2</td></tr>	
+								<tr><td>Karlsruhe</td><td class="right">2</td></tr><tr><td>Hohenlohekreis</td><td class="right">1</td></tr><tr><td>Heilbronn</td><td class="right">1</td></tr><tr><td>Bodenseekreis</td><td class="right">1</td></tr>	
 								</tbody>
 	
 							</table>
@@ -914,7 +914,7 @@ $(document).ready(function(){
 									
 									var attribution = '(cc) openpetition.de';
 									attribution+=' | Map data &copy; <a target="_blank" style="color:#333 !important" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
-									attribution+=' | Stand: 16.10.2015';
+									attribution+=' | Stand: 18.10.2015';
 									map.attributionControl.setPrefix("");   
 									map.attributionControl.addAttribution(attribution);
 									var osm = new L.TileLayer(osmUrl, {
@@ -943,8 +943,8 @@ $(document).ready(function(){
 									
 									// Marker für Bundesländer direkt anzeigen
 	
-									var jsondata_bundesland = [{"qty":"2","lat":"48.6494974282167","lon":"9","verwaltung_id":"12","display_name":"Baden-Württemberg"}];
-									var dotclasses_bundesland = [{"to":1},{"from":"2"}];
+									var jsondata_bundesland = [{"qty":"5","lat":"48.6494974282167","lon":"9","verwaltung_id":"12","display_name":"Baden-Württemberg"}];
+									var dotclasses_bundesland = [{"to":4},{"from":"5"}];
 									var legend_bundesland = [];
 									var legend_landkreis = [];
 									var legend_plz = [];
@@ -1056,7 +1056,7 @@ $(document).ready(function(){
 			
 											// Marker für Landkreise
 	
-											var jsondata_landkreis = [{"qty":"2","lat":"49.0606377936611","lon":"8.59080351493663","verwaltung_id":"1495","display_name":"Karlsruhe","level":"4"}];
+											var jsondata_landkreis = [{"qty":"1","lat":"49.2718359060601","lon":"9.61792961119204","verwaltung_id":"1475","display_name":"Hohenlohekreis","level":"4"},{"qty":"1","lat":"49.2044144565960","lon":"9.1868173164088","verwaltung_id":"1502","display_name":"Heilbronn","level":"4"},{"qty":"1","lat":"47.7261198499875","lon":"9.40116818900485","verwaltung_id":"1469","display_name":"Bodenseekreis","level":"4"},{"qty":"2","lat":"49.0606377936611","lon":"8.59080351493663","verwaltung_id":"1495","display_name":"Karlsruhe","level":"4"}];
 											var dotclasses_landkreis = [{"to":1},{"from":"2"}];
 											$.each(jsondata_landkreis,function(n,e){
 													var className = false;
@@ -1089,7 +1089,7 @@ $(document).ready(function(){
 			
 											// Marker für PLZ
 	
-											var jsondata_plz = [{"qty":"1","postcode":"76189","lon":"8.32755974486606","lat":"48.9996986665321"},{"qty":"1","postcode":"76135","lon":"8.38117325139317","lat":"48.9925647346182"}];
+											var jsondata_plz = [{"qty":"1","postcode":"76135","lon":"8.38117325139317","lat":"48.9925647346182"},{"qty":"1","postcode":"88045","lon":"9.4638045357109","lat":"47.6668742120177"},{"qty":"1","postcode":"71543","lon":"9.46582188684375","lat":"49.0934956141742"},{"qty":"1","postcode":"74214","lon":"9.53108565096908","lat":"49.3509852596941"},{"qty":"1","postcode":"76189","lon":"8.32755974486606","lat":"48.9996986665321"}];
 											var dotclasses_plz = [{"from":"1"}];
 											$.each(jsondata_plz,function(n,e){
 												var className = false;
