@@ -70,3 +70,22 @@ wochentag <-
   scale_y_continuous(limits=c(0,0.30),breaks=c(0,0.05,0.1,0.15,0.2,0.25,0.30))+
   geom_errorbar(limits, width=0.25)+
   theme_classic()
+
+pdf('/Users/Meilin/Desktop/datadive2/figures/wochentag_petitionen.pdf')
+wochentag
+dev.off()
+
+*** Map ***
+
+library(plyr)
+library(ggplot2)
+library(lattice)
+library(maps)
+
+IncidenceMap <- gvisGeoChart(signer, locationvar = 'postcode',
+                             colorvar = 'signer_id',
+                             options = list(
+                               colors = "['#fff7bc', '#d95f0e']"
+                             ))
+
+print(IncidenceMap, tag = 'chart')
