@@ -16,7 +16,6 @@
 
 # First w define a working directory, the path needs to be changed depending
 # on the machine used
-setwd('~/CorrelAidRepos/datadive/')
 
 # Loading the R packages neccessary to execute the tasks ahead.
 packages <- c("stringr", "XML", "maptools", "RCurl", "ggplot2", "sp", "spdep",
