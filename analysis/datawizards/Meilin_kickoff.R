@@ -31,11 +31,42 @@ sumsaturday <- table(signer$wday)[7]
 
 install.packages("Hmisc")
 library(Hmisc)
-binconf(sumsunday,100000)
-binconf(summonday,100000)
-binconf(sumtuesday,100000)
-binconf(sumwednesday,100000)
-binconf(sumthursday,100000)
-binconf(sumfriday,100000)
-binconf(sumsaturday,100000)
+conf1 <- binconf(sumsunday,100000)
+conf2 <- binconf(summonday,100000)
+conf3 <- binconf(sumtuesday,100000)
+conf4 <- binconf(sumwednesday,100000)
+conf5 <- binconf(sumthursday,100000)
+conf6 <- binconf(sumfriday,100000)
+conf7 <- binconf(sumsaturday,100000)
 
+#Code für Graphiken
+names.matrix <-matrix(c("Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"),nrow=7,ncol=1)
+
+df.table <- rbind(conf1, conf2, conf3, conf4, conf5, conf6, conf7)
+df.table <- cbind(names.matrix, df.table)
+df.table <- data.frame(df.table)
+colnames(df.table) <- c("name", "mean", "l.conf", "h.conf")
+df.table
+
+df.table$name <- factor(df.table$name, levels = df.table$name, ordered = T)
+df.table$mean <- as.numeric(as.character(df.table$mean))
+df.table$l.conf <- as.numeric(as.character(df.table$l.conf))
+df.table$h.conf <- as.numeric(as.character(df.table$h.conf))
+
+limits <- aes(ymax = df.table$h.conf, ymin=df.table$l.conf)
+
+CAcol <- c("#3863a2", "#92de3f", "#f04451","#3863a2", "#92de3f", "#f04451","#3863a2")
+
+
+wochentag <- 
+  ggplot(df.table, 
+                       aes(x=df.table$name, 
+                           y=df.table$mean, 
+                           fill=df.table$name)) +
+  geom_bar(stat="identity") +
+  ggtitle("Petitionsteilnahme nach Wochentag") +
+  xlab("Wochentag") + ylab("Anteil Teilnahme") + 
+  scale_fill_manual(name="Wochentag", values = CAcol)+
+  scale_y_continuous(limits=c(0,0.30),breaks=c(0,0.05,0.1,0.15,0.2,0.25,0.30))+
+  geom_errorbar(limits, width=0.25)+
+  theme_classic()
