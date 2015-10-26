@@ -47,11 +47,12 @@ rm(i)
   petitions <- petitions %>%
     mutate(target_support = str_replace_all(target_support, "\\n", "")) %>%
     mutate(target_support = str_replace_all(target_support, "\\t", "")) %>%
-    mutate(target_support = str_replace_all(target_support, "(\\d{1,}\\.{1,}\\d{1,}).+", "\\1")) %>%
-    mutate(target_support = str_replace_all(target_support, "(\\d{1,}).+", "\\1")) %>%
-    mutate(target_support = str_replace_all(target_support, "\\.", "")) %>%
-    mutate(target_support = as.integer(target_support))
+    mutate(target_support = str_replace_all(target_support, "(\\d{1,}\\.{1,}\\d{1,}).+", "\\1")) 
   
+  petitions$target_support <- str_replace_all(petitions$target_support, "für Sammelziel", "")
+  petitions$target_support <- str_replace_all(petitions$target_support, "für Quorum.+", "")
+  petitions$target_support <- str_replace_all(petitions$target_support, "\\.", "")
+ 
   #perc_reached 
   petitions$perc_reached <- str_replace_all(petitions$perc_reached, "% erreicht von", "")
   petitions$perc_reached <- str_replace_all(petitions$perc_reached, "% achieved of", "")
